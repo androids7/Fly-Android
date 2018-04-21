@@ -2,7 +2,7 @@
 #include <pthread.h>
 
 #include "NativeMain.h"
-#include "Vector.h"
+
 
 #define LOG_TAG "NATIVE_MAIN_CPP"
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR ,LOG_TAG ,__VA_ARGS__)
@@ -12,8 +12,9 @@ static pthread_t loopID;
 
 void onStart(ANativeActivity *activity) {
     LOGE("Application is start");
+   // Vector *pVt=vtCreate();
 
-    Vector *pVt=vtCreate();
+    //LOGE("%d",123);
 }
 
 void onResume(ANativeActivity *activity) {
