@@ -19,6 +19,7 @@ add_library( # Sets the name of the library.
              # Provides a relative path to your source file(s).
              src/main/cpp/NativeMain.cpp )
 add_library(vector SHARED src/main/cpp/Vector.c)
+add_library(mygltools SHARED src/main/cpp/MyGLTools.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -42,6 +43,18 @@ target_link_libraries( # Specifies the target library.
                        vector
                        android
                        EGL
+                       mygltools
+                       GLESv1_CM
+                       # Links the target library to the log library
+                       # included in the NDK.
+                       ${log-lib} )
+
+target_link_libraries( # Specifies the target library.
+                       mygltools
+                       vector
+                       android
+                       EGL
+
                        GLESv1_CM
                        # Links the target library to the log library
                        # included in the NDK.
