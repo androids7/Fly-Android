@@ -19,9 +19,12 @@ MyEvent *CreateMyEvent(){
     return pEvent;
 }
 
-MyEvent *CreateMyEventCreateWindow(){
+MyEvent *CreateMyEventCreateWindow(ANativeWindow *window){
+    MyCreateWindowEventTag *pTag=(MyCreateWindowEventTag *)malloc(sizeof(MyCreateWindowEventTag));
     MyEvent *pEvent=CreateMyEvent();
     pEvent->EventID=MYEVENT_ID_CREATEWINDOW;
+    pTag->pWindow=window;
+    pEvent->pTag=pTag;
 
     return pEvent;
 }
@@ -31,11 +34,43 @@ void DestoryMyEvent(MyEvent *pEvent){
     free(pEvent);
 }
 
-unsigned int AddEvent(MyEventManager *pM,
+MyEventManager *CreateMyEventManager(){
+    MyEventManager *pM=(MyEventManager *)malloc(sizeof(MyEventManager));
+    pM->pEventVt=vtCreate();
+    return pM;
+}
+
+unsigned int AddMyEvent(MyEventManager *pM,
                 MyEvent *pEvent){
     vtAddBack(pM->pEventVt,pEvent);
 
     return pEvent->EventID;
+}
+
+MyEvent *RemoveMyEvent(MyEventManager *pM,
+                unsigned int ID){
+    for(int i=0;i<vtCount(pM->pEventVt);i++){
+        MyEvent *pEvent=(MyEvent *)vtGet(pM->pEventVt,i);
+
+        if(pEvent->ID==ID){
+            vtRemove(pM->pEventVt,i);
+            return pEvent;
+        }
+    }
+    return NULL;
+}
+
+void DestoryAllEvents(MyEventManager *pM){
+    for(int i=0;i<vtCount(pM->pEventVt);i++){
+        MyEvent *pEvent=(MyEvent *)vtGet(pM->pEventVt,i);
+        DestoryMyEvent(pEvent);
+    }
+
+    pM->pEventVt->nCount=0;
+}
+
+bool MyEventManagerHasEvent(MyEventManager *pM){
+    return vtCount(pM->pEventVt);
 }
 
 void InitGL(ANativeWindow *window){

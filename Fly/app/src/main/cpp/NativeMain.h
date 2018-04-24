@@ -5,6 +5,7 @@
 #ifndef FLY_NATIVEMAIN_H
 
 #include <android/native_activity.h>
+#include "MyGLTools.h"
 extern "C" {
 #include "Vector.h"
 }
@@ -32,6 +33,8 @@ void onInputQueueCreated(ANativeActivity *activity, AInputQueue *queue);
 void onInputQueueDestroyed(ANativeActivity *activity, AInputQueue *queue);
 void onConfigurationChanged(ANativeActivity *activity);
 void onLowMemory(ANativeActivity *activity);
+
+void DoEvent(MyEventManager *pM);
 
 #define FLY_NATIVEMAIN_H
 
